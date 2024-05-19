@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Danh sách khách hàng</title>
+    <link rel="stylesheet" href="/css/home.css">
+</head>
+
+<body>
+    <h1>Danh sách khách hàng</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Id khách hàng</th>
+                <th>Họ tên</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <% khachhang.forEach((kh, index)=> { %>
+                <tr>
+                    <td>
+                        <%= kh.id_khach_hang %>
+                    </td>
+                    <td>
+                        <%= kh.ten_khach_hang %>
+                    </td>
+                    <td><a href="/delete?id=<%= kh.id_khach_hang %>">Xóa</a></td>
+                </tr>
+                <% }); %>
+        </tbody>
+    </table>
+</body>
+
+</html>

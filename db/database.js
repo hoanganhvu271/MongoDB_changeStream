@@ -9,7 +9,7 @@ class Database {
 
     async initialize() {
         await this._connectPromise;
-        // this.setupChangeStream();
+        this.setupChangeStream();
     }
 
     _connect() {
@@ -22,49 +22,29 @@ class Database {
             })
     }
 
-    // setupChangeStream() {
-    //     const ticketsCollection = mongoose.connection.collection('Ve');
-    //     const customersCollection = mongoose.connection.collection('KhachHang');
+    setupChangeStream() {
+        const customersCollection = mongoose.connection.collection('KhachHang');
+        const ticketsCollection = mongoose.connection.collection('Ve');
+        const changeStream = customersCollection.watch([{ $match: { operationType: 'delete' } }]);
 
-    //     const changeStream = ticketsCollection.watch([{ $match: { operationType: 'insert' } }]);
+        changeStream.on('change', async (next) => {
+            try {
+                // console.log(next.documentKey)
+                const deletedCustomerId = next.fullDocument.id_khach_hang;
+                await ticketsCollection.deleteMany({ id_khach_hang: deletedCustomerId });
+            } catch (error) {
+                console.error('Error processing change stream event:', error);
+            }
+        });
 
-    //     changeStream.on('change', async (next) => {
-    //         try {
-    //             console.log("New ticket inserted:", next.fullDocument);
-    //             const customerId = next.fullDocument.id_khach_hang;
+        changeStream.on('error', (error) => {
+            console.error('Change stream error:', error);
+        });
 
-    //             const customerExists = await customersCollection.findOne({ id_khach_hang: customerId });
-    //             if (!customerExists) {
-    //                 const newCustomer = {
-    //                     id_khach_hang: customerId,
-    //                     ten_khach_hang: "Vu",
-    //                     sdt: "01272521",
-    //                     email: "hoanganhvu271103@gmail.com",
-    //                     cccd: "00928272"
-    //                 };
-
-    //                 await customersCollection.insertOne(newCustomer);
-    //                 console.log("New customer added:", newCustomer);
-    //             } else {
-    //                 console.log("Customer already exists:", customerExists);
-    //             }
-    //         } catch (error) {
-    //             console.error('Error processing change stream event:', error);
-    //         }
-    //     });
-
-    //     changeStream.on('error', (error) => {
-    //         console.error('Change stream error:', error);
-    //         this.setupChangeStream();
-    //     });
-
-    //     changeStream.on('close', () => {
-    //         console.warn('Change stream closed');
-
-    //         this.setupChangeStream();
-    //     });
-    // }
-
+        changeStream.on('close', () => {
+            console.warn('Change stream closed');
+        });
+    }
 }
 
 const database = new Database();

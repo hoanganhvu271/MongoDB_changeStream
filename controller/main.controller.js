@@ -62,8 +62,29 @@ const addNewTickets = async (req, res) => {
     }
 };
 
-module.exports = addNewTickets;
+const getAllClient = async (req, res) => {
+    try {
+        const clients = await KhachHang.find();
+        res.render('client', { khachhang: clients });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Internal Server Error');
+    }
+};
+
+const deleteClientById = async (req, res) => {
+    try {
+        const id = req.query.id;
+        await KhachHang.deleteMany({ id_khach_hang: id })
+        res.status(200).send('Deleted successfully!');
+    }
+    catch (e) {
+        console.error(e);
+        res.status(500).send('Internal Server Error');
+    }
+}
+
 
 module.exports = {
-    getHome, addNewTickets, renderAddNewTickets
+    getHome, addNewTickets, renderAddNewTickets, getAllClient, deleteClientById
 };

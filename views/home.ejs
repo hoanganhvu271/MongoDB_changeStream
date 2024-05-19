@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Danh sách vé</title>
+</head>
+
+<body>
+    <h1>Danh sách vé</h1>
+    <a href="/add">
+        <h2>Thêm vé</h2>
+    </a>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID Vé</th>
+                <th>ID Chuyến Tàu</th>
+                <th>ID Nhân Viên</th>
+                <th>ID Khách Hàng</th>
+                <th>ID Trụ Sở</th>
+                <th>Giá Vé</th>
+                <th>ID Ghế</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% tickets.forEach(ticket=> { %>
+                <tr>
+                    <td>
+                        <%= ticket.id_ve %>
+                    </td>
+                    <td>
+                        <%= ticket.id_chuyen_tau %>
+                    </td>
+                    <td>
+                        <%= ticket.id_nhan_vien %>
+                    </td>
+                    <td>
+                        <%= ticket.id_khach_hang %>
+                    </td>
+                    <td>
+                        <%= ticket.id_tru_so %>
+                    </td>
+                    <td>
+                        <%= ticket.gia_ve %>
+                    </td>
+                    <td>
+                        <%= ticket.id_ghe %>
+                    </td>
+                </tr>
+                <% }); %>
+        </tbody>
+    </table>
+</body>
+
+</html>

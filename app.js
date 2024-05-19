@@ -6,6 +6,7 @@ var routes = require('./routes/main.route');
 
 var app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static('public'));
 
 app.set('view engine', 'ejs');
 app.set('views', './views');

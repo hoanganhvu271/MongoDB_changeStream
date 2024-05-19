@@ -2,49 +2,30 @@
 <html>
 
 <head>
-    <title>Danh sách vé</title>
+    <title>Danh sách trụ sở</title>
+    <link rel="stylesheet" href="/css/home.css">
 </head>
 
 <body>
-    <h1>Danh sách vé</h1>
-    <a href="/add">
-        <h2>Thêm vé</h2>
-    </a>
-    <table border="1">
+    <h1>Danh sách trụ sở</h1>
+    <table>
         <thead>
             <tr>
-                <th>ID Vé</th>
-                <th>ID Chuyến Tàu</th>
-                <th>ID Nhân Viên</th>
-                <th>ID Khách Hàng</th>
-                <th>ID Trụ Sở</th>
-                <th>Giá Vé</th>
-                <th>ID Ghế</th>
+                <th>STT</th>
+                <th>Tên</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
-            <% tickets.forEach(ticket=> { %>
+            <% truso.forEach((trusoItem, index)=> { %>
                 <tr>
                     <td>
-                        <%= ticket.id_ve %>
+                        <%= trusoItem.id_tru_so %>
                     </td>
                     <td>
-                        <%= ticket.id_chuyen_tau %>
-                    </td>
-                    <td>
-                        <%= ticket.id_nhan_vien %>
-                    </td>
-                    <td>
-                        <%= ticket.id_khach_hang %>
-                    </td>
-                    <td>
-                        <%= ticket.id_tru_so %>
-                    </td>
-                    <td>
-                        <%= ticket.gia_ve %>
-                    </td>
-                    <td>
-                        <%= ticket.id_ghe %>
+                        <%= trusoItem.dia_chi %>
+
+                    <td><a href="/add?id_tru_so=<%= trusoItem.id_tru_so %>">Chọn</a></td>
                     </td>
                 </tr>
                 <% }); %>
